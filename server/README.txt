@@ -1,0 +1,1 @@
+If retrieving this source code and running it from a public repository like GitHub, add a secret phrase to config.json.

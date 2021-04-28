@@ -1,0 +1,28 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+
+    <svg id="toolbar_image" xmlns:svg="http://www.w3.org/2000/svg" version="1.1" height="100%" width="100%" 
+        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <style>
+        #toolbar_image1{
+            fill: rgb(79, 44, 112);
+        }
+
+        #toolbar_image2{
+            fill: rgb(45, 27, 78);
+        }
+        </style>
+        <defs>
+            <filter id="f1" x="0" y="0" width="150%" height="150%">
+              <feOffset result="offOut" in="SourceAlpha" dx="5" dy="5" />
+              <feGaussianBlur result="blurOut" in="offOut" stdDeviation="5" />
+              <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+            </filter>
+        </defs>
+        <path id="toolbar_image2" d="M0 0 V50 H1800 V0 H0" />
+        <path id="toolbar_image1" filter="url(#f1)"  d="M0 0 V55 H250 L300 10 H1800 V0 Z" />
+        
+        Sorry, your browser does not support inline SVG.
+    </svg>

@@ -1,0 +1,7 @@
+{
+  "config": {
+    "secret": null,
+    "timeout": 1800000,
+    "allowNewUsers": false
+  }
+}
