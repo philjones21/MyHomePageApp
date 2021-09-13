@@ -6,6 +6,7 @@ export interface IConfigInfo {
         secret: string,
         timeout: number,
         allowNewUsers: boolean,
+        environment: string
     }
 }
 

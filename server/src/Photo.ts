@@ -137,7 +137,7 @@ export class Worker {
 
             form.parse(inRequest, function (inError: Error, fields: any, files: any) {
                 if (inError) {
-                    logger.error("Photo parseRequest()", inError);
+                    logger.info("Photo parseRequest()", inError);
                     inReject(inError);
                     return;
                 } else if (fields.length < 1 || files.length < 1) {

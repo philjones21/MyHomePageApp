@@ -1,9 +1,10 @@
 import {Constants} from "./Constants";
+import { configInfo } from "./ConfigInfo";
 const winston = require('winston')
 
 const options = {
   file: {
-    level: 'info',
+    level: 'error',
     filename: Constants.LOG_FILE_DIR + '/app.log',
     handleExceptions: true,
     json: true,
@@ -23,8 +24,11 @@ export const logger = winston.createLogger({
   levels: winston.config.npm.levels,
   transports: [
     new winston.transports.File(options.file),
-    new winston.transports.Console(options.console)
   ],
   exitOnError: false
 })
+
+if (configInfo.config.environment !== Constants.Environment.PRODUCTION) {
+  logger.add(new winston.transports.Console(options.console));
+}
 

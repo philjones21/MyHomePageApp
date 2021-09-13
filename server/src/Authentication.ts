@@ -113,7 +113,7 @@ export class Authentication {
         return new Promise((inResolve, inReject) => {
             this.db.insert(inUserRegisterInfo, (inError: Error | null, inNewDoc: IUserInfo) => {
                 if (inError) {
-                    logger.error("Authentication addUser()", inError);
+                    logger.info("Authentication addUser()", inError);
                     inReject(inError);
                 } else {
                     inResolve(true);
@@ -190,7 +190,7 @@ export class Authentication {
             this.db.find({ nameSearchField: inUserName },
                 (inError: Error, inDoc: IUserInfo[]) => {
                     if (inError) {
-                        logger.error("Authentication searchUserByName()", inError);
+                        logger.info("Authentication searchUserByName()", inError);
                         inReject(inError);
                     } else {
                         inResolve(inDoc);
@@ -210,7 +210,7 @@ export class Authentication {
             this.db.find({ emailSearchField: inUserEmail },
                 (inError: Error, inDoc: IUserInfo[]) => {
                     if (inError) {
-                        logger.error("Authentication searchUserByEmail()", inError);
+                        logger.info("Authentication searchUserByEmail()", inError);
                         inReject(inError);
                     } else {
                         inResolve(inDoc);
@@ -231,7 +231,7 @@ export class Authentication {
             this.db.update({ name: inUserName },{$set: {loginAttempts: attemptNumber}},{},
                 (inError: Error | null, inNumberReplaced: number, upsert: boolean) => {
                     if (inError) {
-                        logger.error("Authentication updateUserLoginAttempts()", inError);
+                        logger.info("Authentication updateUserLoginAttempts()", inError);
                         inReject(inError);
                     } else {
                         inResolve(inNumberReplaced);
@@ -249,7 +249,7 @@ export class Authentication {
         return new Promise((inResolve, inReject) => {
             inRequest.session.destroy((inError: Error) => {
                 if (inError) {
-                    logger.error("Authentication destroySession()", inError);
+                    logger.info("Authentication destroySession()", inError);
                     inReject(inError);
                 } else {
                     inResolve(true);

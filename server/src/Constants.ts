@@ -28,6 +28,8 @@ export const Constants = {
 
     MAX_BLOG_ARTICLE_CHARS: 2000,
 
+    Environment: {PRODUCTION: "production", DEVELOPMENT: "development"},
+
 };
 
 

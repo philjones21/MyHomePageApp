@@ -56,7 +56,7 @@ app.get("/photoalbums",
             const photoAlbums: IPhotoAlbums[] = await photoAlbumWorker.listPhotoAlbums();
             inResponse.send(photoAlbums);
         } catch (inError) {
-            logger.error("SessionId: " + inRequest.session.id + " main get /photoalbums ", inError);
+            logger.info("SessionId: " + inRequest.session.id + " main get /photoalbums ", inError);
             inResponse.status(404).send("error");
         }
     }
@@ -71,7 +71,7 @@ app.get("/blogs",
             const blogs: IBlogs[] = await blogsWorker.listBlogs();
             inResponse.send(blogs);
         } catch (inError) {
-            logger.error("SessionId: " + inRequest.session.id + " main get /blogs ", inError);
+            logger.info("SessionId: " + inRequest.session.id + " main get /blogs ", inError);
             inResponse.status(404).send("error");
         }
     }
@@ -95,7 +95,7 @@ app.post("/photoalbums",
         try {
             validationResult(inRequest).throw();
         } catch (e) {
-            logger.error("SessionId: " + inRequest.session.id + " main post /photoalbums", e);
+            logger.info("SessionId: " + inRequest.session.id + " main post /photoalbums", e);
             inResponse.status(400).send("error: Invalid data entered");
             return;
         }
@@ -111,7 +111,7 @@ app.post("/photoalbums",
             logger.info("SessionId: " + inRequest.session.id + " main post /photoalbums. Album added.");
             inResponse.send(photoAlbum);
         } catch (inError) {
-            logger.error("SessionId: " + inRequest.session.id + " main post /photoalbums", inError);
+            logger.info("SessionId: " + inRequest.session.id + " main post /photoalbums", inError);
             inResponse.status(400).send("error");
         }
     }
@@ -134,7 +134,7 @@ app.post("/blog",
         try {
             validationResult(inRequest).throw();
         } catch (e) {
-            logger.error("SessionId: " + inRequest.session.id + " main post /blog", e);
+            logger.info("SessionId: " + inRequest.session.id + " main post /blog", e);
             inResponse.status(400).send("error: Invalid data entered");
             return;
         }
@@ -155,7 +155,7 @@ app.post("/blog",
             }
 
             if(!validator.isURL(inRequest.body.blogEmbedURL) || !validEmbedURL){
-                logger.error("SessionId: " + inRequest.session.id + " main post /blog invalid embedURL.");
+                logger.info("SessionId: " + inRequest.session.id + " main post /blog invalid embedURL.");
                 inResponse.status(400).send("error: Invalid data entered");
                 return;
             }
@@ -167,7 +167,7 @@ app.post("/blog",
             logger.info("SessionId: " + inRequest.session.id + " main post /blog. Blog Article added.");
             inResponse.send(blog);
         } catch (inError) {
-            logger.error("SessionId: " + inRequest.session.id + " main post /blog", inError);
+            logger.info("SessionId: " + inRequest.session.id + " main post /blog", inError);
             inResponse.status(400).send("error");
         }
     }
@@ -183,7 +183,7 @@ app.delete("/photoalbums/:id",
         try {
             validationResult(inRequest).throw();
         } catch (e) {
-            logger.error("SessionId: " + inRequest.session.id + " main delete /photoalbums/id", e);
+            logger.info("SessionId: " + inRequest.session.id + " main delete /photoalbums/id", e);
             inResponse.status(400);
             return;
         }
@@ -214,7 +214,7 @@ app.delete("/photoalbums/:id",
             }
             inResponse.send("ok");
         } catch (inError) {
-            logger.error("SessionId: " + inRequest.session.id + " main delete /photoalbums/id", inError);
+            logger.info("SessionId: " + inRequest.session.id + " main delete /photoalbums/id", inError);
             inResponse.status(400).send("error");
         }
     }
@@ -230,7 +230,7 @@ app.delete("/blog/:id",
         try {
             validationResult(inRequest).throw();
         } catch (e) {
-            logger.error("SessionId: " + inRequest.session.id + " main delete /blog/id", e);
+            logger.info("SessionId: " + inRequest.session.id + " main delete /blog/id", e);
             inResponse.status(400);
             return;
         }
@@ -247,7 +247,7 @@ app.delete("/blog/:id",
             }
             inResponse.send("ok");
         } catch (inError) {
-            logger.error("SessionId: " + inRequest.session.id + " main delete /blog/id", inError);
+            logger.info("SessionId: " + inRequest.session.id + " main delete /blog/id", inError);
             inResponse.status(400).send("error");
         }
     }
@@ -264,7 +264,7 @@ app.delete("/photoalbums/:id/photos/:filename",
         try {
             validationResult(inRequest).throw();
         } catch (e) {
-            logger.error("SessionId: " + inRequest.session.id + " main delete /photoalbums/id/photos/filename", e);
+            logger.info("SessionId: " + inRequest.session.id + " main delete /photoalbums/id/photos/filename", e);
             inResponse.status(400);
             return;
         }
@@ -302,7 +302,7 @@ app.delete("/photoalbums/:id/photos/:filename",
             }
             inResponse.send("ok");
         } catch (inError) {
-            logger.error("SessionId: " + inRequest.session.id + " main delete /photoalbums/id/photos/filename", inError);
+            logger.info("SessionId: " + inRequest.session.id + " main delete /photoalbums/id/photos/filename", inError);
             inResponse.status(400).send("error");
         }
     }
@@ -329,7 +329,7 @@ app.post("/photos",
                 inResponse.status(400).send("error");
             }
         } catch (inError) {
-            logger.error("SessionId: " + inRequest.session.id + " main.ts post /photos", inError);
+            logger.info("SessionId: " + inRequest.session.id + " main.ts post /photos", inError);
             inResponse.status(400).send("error");
         }
     }
@@ -346,7 +346,7 @@ app.get('/albumid/:id/photofilename/:filename',
         try {
             validationResult(inRequest).throw();
         } catch (e) {
-            logger.error("SessionId: " + inRequest.session.id + " main.ts get /albumid/:id/photofilename/:filename", e);
+            logger.info("SessionId: " + inRequest.session.id + " main.ts get /albumid/:id/photofilename/:filename", e);
             inResponse.status(400);
             return;
         }
@@ -378,7 +378,7 @@ app.get('/albumid/:id/photofilename/:filename',
                 id + " photo: " + filename);
             await fileSender();
         } catch (e) {
-            logger.error("SessionId: " + inRequest.session.id + " main.ts get /albumid/:id/photofilename/:filename", e);
+            logger.info("SessionId: " + inRequest.session.id + " main.ts get /albumid/:id/photofilename/:filename", e);
             inResponse.status(400);
         }
     }
@@ -399,7 +399,7 @@ app.post("/register",
         try {
             validationResult(inRequest).throw();
         } catch (e) {
-            logger.error("SessionId: " + inRequest.session.id + " main.ts post /register", e);
+            logger.info("SessionId: " + inRequest.session.id + " main.ts post /register", e);
             inResponse.status(400).send("Invalid data entered");
             return;
         }
@@ -420,7 +420,7 @@ app.post("/register",
                 inResponse.status(400).send(errorMessage.message);
             }
         } catch (e) {
-            logger.error("SessionId: " + inRequest.session.id + " main.ts post /register", e);
+            logger.info("SessionId: " + inRequest.session.id + " main.ts post /register", e);
             inResponse.status(400).send("Error registering user");
         }
     }
@@ -436,7 +436,7 @@ app.post("/login",
         try {
             validationResult(inRequest).throw();
         } catch (e) {
-            logger.error("SessionId: " + inRequest.session.id + " main.ts post /login", e);
+            logger.info("SessionId: " + inRequest.session.id + " main.ts post /login", e);
             inResponse.status(400).send("Invalid email data entered");
             return;
         }
@@ -476,7 +476,7 @@ app.post("/login",
                 inResponse.status(400).send(errorMessage.message);
             }
         } catch (e) {
-            logger.error("SessionId: " + inRequest.session.id + " main.ts post /login", e);
+            logger.info("SessionId: " + inRequest.session.id + " main.ts post /login", e);
             inRequest.session.loggedIn = false;
             inResponse.status(400).send("error");
         }
@@ -494,7 +494,7 @@ app.post("/logout",
                 inResponse.status(500);
             }
         } catch (e) {
-            logger.error("SessionId: " + inRequest.session.id + " main.ts post /logout", e);
+            logger.info("SessionId: " + inRequest.session.id + " main.ts post /logout", e);
             inResponse.status(500);
         }
     }
