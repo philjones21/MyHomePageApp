@@ -4,7 +4,8 @@ import { Constants } from "./Constants";
 const Datastore = require("nedb");
 const bcrypt = require("bcrypt");
 const passwordValidator = require('password-validator');
-import {logger} from "./Logger";
+import { logger } from "./Logger";
+import { SanitationUtil } from "./SanitationUtil";
 
 //Interface to define UserInfo data format for consumers of this class.
 export interface IUserInfo {
@@ -51,17 +52,18 @@ export interface IErrorMessage {
 export class Authentication {
     private db: Nedb;
     private schema: any;
+    private sanitizationUtil: SanitationUtil = new SanitationUtil(Constants.BLACKLIST);
 
     constructor() {
         this.db = new Datastore({ filename: path.join(Constants.DATABASE_DIR, "users.db"), autoload: true });
-    
+
         this.schema = new passwordValidator();
-        this.schema.is().min(8)                                    
-                    .is().max(75)                                  
-                    .has().uppercase()                              
-                    .has().lowercase()                              
-                    .has().digits(1)                               
-                    .has().not().spaces()                           
+        this.schema.is().min(8)
+            .is().max(75)
+            .has().uppercase()
+            .has().lowercase()
+            .has().digits(1)
+            .has().not().spaces()
     }
 
     /**
@@ -73,17 +75,24 @@ export class Authentication {
     * @returns Promise of type boolean      
     */
     public async register(inUserRegisterInfo: IUserRegisterInfo, errorMessage: IErrorMessage): Promise<boolean> {
-       
+
+        try {
+            await this.sanitizationUtil.objectHasNoBlackListedCharacters(inUserRegisterInfo);
+        } catch (e) {
+            errorMessage.message = "Registration Info has invalid characters";
+            return false;
+        }
+
         if (!this.schema.validate(inUserRegisterInfo.password)) {
             errorMessage.message = "User password invalid";
             return false;
         }
-        
+
         inUserRegisterInfo.nameSearchField = inUserRegisterInfo.name.toLowerCase();
         const user: IUserInfo[] = await this.searchUserByName(inUserRegisterInfo.nameSearchField);
         if (user != null) {
             if (user.length > 0) {
-                errorMessage.message = "User name is a duplicate";
+                errorMessage.message = "User name or email is a duplicate";
                 return false;
             }
         }
@@ -92,7 +101,7 @@ export class Authentication {
         const user2: IUserInfo[] = await this.searchUserByEmail(inUserRegisterInfo.emailSearchField);
         if (user2 != null) {
             if (user2.length > 0) {
-                errorMessage.message = "Email is a duplicate";
+                errorMessage.message = "User name or email is a duplicate";
                 return false;
             }
         }
@@ -132,8 +141,15 @@ export class Authentication {
     * @return Promise of type IUserInfo
     */
     public async authenticateUser(inUserLoginInfo: IUserLoginInfo, errorMessage: IErrorMessage): Promise<IUserInfo | null> {
-        
-        if(inUserLoginInfo.email == null){
+
+        try {
+            await this.sanitizationUtil.objectHasNoBlackListedCharacters(inUserLoginInfo);
+        } catch (e) {
+            errorMessage.message = "Login Info has invalid characters";
+            return null;
+        }
+
+        if (inUserLoginInfo.email == null) {
             errorMessage.message = "User email is missing";
             return null;
         }
@@ -154,15 +170,15 @@ export class Authentication {
         } else if (user.length > 1) {
             errorMessage.message = "Error: Duplicate Users";
             return null;
-        }else if(user[0].loginAttempts > Constants.MAX_LOGIN_ATTEMPS ){
+        } else if (user[0].loginAttempts > Constants.MAX_LOGIN_ATTEMPS) {
             errorMessage.message = "Account locked";
             return null;
         }
 
-        if(user[0].loginAttempts == null){
+        if (user[0].loginAttempts == null) {
             user[0].loginAttempts = 0;
         }
-        
+
         if (await bcrypt.compare(inUserLoginInfo.password, user[0].password)) {
             const numberReplaced: number = await this.updateUserLoginAttempts(user[0].name, 0);
             return ({
@@ -228,7 +244,7 @@ export class Authentication {
     */
     private updateUserLoginAttempts(inUserName: string, attemptNumber: number): Promise<number> {
         return new Promise((inResolve, inReject) => {
-            this.db.update({ name: inUserName },{$set: {loginAttempts: attemptNumber}},{},
+            this.db.update({ name: inUserName }, { $set: { loginAttempts: attemptNumber } }, {},
                 (inError: Error | null, inNumberReplaced: number, upsert: boolean) => {
                     if (inError) {
                         logger.info("Authentication updateUserLoginAttempts()", inError);
