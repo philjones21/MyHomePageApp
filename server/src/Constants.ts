@@ -30,6 +30,9 @@ export const Constants = {
 
     Environment: {PRODUCTION: "production", DEVELOPMENT: "development"},
 
+    BLACKLIST: [";","\"","\'","$","[","]","{","}","\\"],
+    BLACKLIST2: [";","\"","$","[","]","{","}","\\"],
+
 };
 
 

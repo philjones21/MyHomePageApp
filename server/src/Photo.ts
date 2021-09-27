@@ -8,6 +8,7 @@ import { IPhotoAlbums } from "./PhotoAlbums";
 import * as PhotoAlbums from "./PhotoAlbums";
 import validator from 'validator';
 import {logger} from "./Logger";
+import { SanitationUtil } from "./SanitationUtil";
 
 //Interface to define Photo data format for consumers of this class.
 export interface IPhoto {
@@ -165,12 +166,15 @@ export class Worker {
                     } else {
                         //fields passed validation so sanitize
                         //React will sanitize HTML for JSX so no need to escape here.
+                        const sanitizationUtil: SanitationUtil = new SanitationUtil(Constants.BLACKLIST2);
                         albumId = fields._id.toString();
                         albumName = fields.albumName.toString();
                         if (fields.photoDescription != null) {
                             inPhotoDescription = fields.photoDescription.toString();
+                            inPhotoDescription = sanitizationUtil.sanitizeWithBlackList(inPhotoDescription);
                             inPhotoDescription = validator.trim(inPhotoDescription);
                         }
+                        albumName = sanitizationUtil.sanitizeWithBlackList(albumName);
                         albumName = validator.trim(albumName);
                     }
 

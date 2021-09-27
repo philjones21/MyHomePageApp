@@ -29,7 +29,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: false,//change in future
+        secure: configInfo.config.environment === Constants.Environment.PRODUCTION,
         sameSite: true,
         maxAge: configInfo.config.timeout
     },
@@ -41,12 +41,6 @@ app.use(session({
 //location of static resources used by client.
 app.use("/", express.static(path.join(__dirname, ".." + path.sep + ".." + path.sep + "client" + path.sep + "dist")));
 
-app.use((inRequest: Request, inResponse: Response, inNext: NextFunction) => {
-    inResponse.header("Access-Control-Allow-Origin", "*");
-    inResponse.header("Access-Control-Allow-Methods", "GET,POST,DELETE");
-    inResponse.header("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept");
-    inNext();
-});
 
 //End point for getting list of PhotoAlbums
 app.get("/photoalbums",

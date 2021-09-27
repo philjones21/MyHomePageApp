@@ -3,6 +3,7 @@ import { IPhoto } from "./Photo";
 import { Constants } from "./Constants";
 import * as fs from "fs";
 import { logger } from "./Logger";
+import { SanitationUtil } from "./SanitationUtil";
 
 const Datastore = require("nedb");
 
@@ -22,6 +23,7 @@ export interface IPhotoAlbums {
 */
 export class Worker {
     private db: Nedb;
+    private sanitizationUtil: SanitationUtil = new SanitationUtil(Constants.BLACKLIST2);
 
     constructor() {
         this.db = new Datastore({ filename: path.join(Constants.DATABASE_DIR, "photoalbums.db"), autoload: true });
@@ -51,7 +53,8 @@ export class Worker {
     * @param inId albumId
     * @return Promise of IPhotoAlbums[] or error    
     */
-    public getPhotoAlbumById(inId: String): Promise<IPhotoAlbums[]> {
+    public getPhotoAlbumById(inId: string): Promise<IPhotoAlbums[]> {
+        inId = this.sanitizationUtil.sanitizeWithBlackList(inId);
         return new Promise((inResolve, inReject) => {
             this.db.find({ _id: inId },
                 (inError: Error, inDocs: IPhotoAlbums[]) => {
@@ -73,7 +76,9 @@ export class Worker {
     * @param inPhoto conforms to IPhoto
     * @returns Promise of number type or error     
     */
-    public addPhotoToPhotoAlbumById(inId: String, numberOfPhotos: number, inPhoto: IPhoto): Promise<number> {
+    public addPhotoToPhotoAlbumById(inId: string, numberOfPhotos: number, inPhoto: IPhoto): Promise<number> {
+        inId = this.sanitizationUtil.sanitizeWithBlackList(inId);
+        this.sanitizationUtil.sanitizeObjectWithBlackList(inPhoto);
         return new Promise((inResolve, inReject) => {
             this.db.update({ _id: inId }, { $set: { numberOfFiles: numberOfPhotos }, $push: { photos: inPhoto } }, {},
                 (inError: Error | null, inNumberReplaced: number, upsert: boolean) => {
@@ -111,8 +116,10 @@ export class Worker {
     * @returns Promise of IPhotoAlbums or error     
     */
     public addPhotoAlbum(inPhotoAlbum: IPhotoAlbums): Promise<IPhotoAlbums> {
+        this.sanitizationUtil.sanitizeObjectWithBlackList(inPhotoAlbum);
         inPhotoAlbum.numberOfFiles = 0;
         inPhotoAlbum.createdDate = new Date();
+        
         return new Promise((inResolve, inReject) => {
             this.db.insert(inPhotoAlbum, async (inError: Error | null, inNewDoc: IPhotoAlbums) => {
                 if (inError) {
@@ -142,6 +149,8 @@ export class Worker {
     * @returns Promise of number type. Number records deleted   
     */
     public deletePhotoAlbum(inID: string, inUserName: string): Promise<number> {
+        inID = this.sanitizationUtil.sanitizeWithBlackList(inID);
+        inUserName = this.sanitizationUtil.sanitizeWithBlackList(inUserName);
         return new Promise((inResolve, inReject) => {
             this.db.remove({ _id: inID, originalAuthor: inUserName }, {}, (inError: Error | null, inNumberRemoved: number) => {
                 if (inError) {
@@ -162,6 +171,9 @@ export class Worker {
     * @returns Promise of number type. Number deleted or error
     */
     public deletePhotoDataFromDB(inID: string, inPhotoFileName: string, inUserName: string): Promise<number> {
+        inID = this.sanitizationUtil.sanitizeWithBlackList(inID);
+        inPhotoFileName = this.sanitizationUtil.sanitizeWithBlackList(inPhotoFileName);
+        inUserName = this.sanitizationUtil.sanitizeWithBlackList(inUserName);
         return new Promise((inResolve, inReject) => {
             this.db.update({ _id: inID, }, {
                 $pull:
@@ -190,7 +202,8 @@ export class Worker {
     * @param numberOfPhotos new number of Photos
     * @returns Promise of number type. Number of records updated     
     */
-    public updatePhotoCountById(inId: String, numberOfPhotos: number): Promise<number> {
+    public updatePhotoCountById(inId: string, numberOfPhotos: number): Promise<number> {
+        inId = this.sanitizationUtil.sanitizeWithBlackList(inId);
         return new Promise((inResolve, inReject) => {
             this.db.update({ _id: inId }, { $set: { numberOfFiles: numberOfPhotos } }, {},
                 (inError: Error | null, inNumberReplaced: number, upsert: boolean) => {
@@ -210,6 +223,7 @@ export class Worker {
     * @returns Promise of boolean type. True or false for success or fail
     */
     public deletePhotoAlbumFolderFromRepository(inID: string): Promise<boolean> {
+        inID = this.sanitizationUtil.sanitizeWithBlackList(inID);
         return new Promise((inResolve, inReject) => {
 
             const fullFolderPath: string = path.join(Constants.IMAGE_REPOSITORY_BASE_DIR, inID);
