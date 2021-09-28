@@ -28,7 +28,7 @@ export default function PaginationControl({ state, totalPages }) {
 
   return (
     <div className={classes.root}>
-      <Pagination  variant="outlined" shape="rounded" count={totalPages} page={state.paginationPage} onChange={handleChange} />
+      <Pagination variant="outlined" shape="rounded" count={totalPages} page={state.paginationPage} onChange={handleChange} />
     </div>
   );
 }

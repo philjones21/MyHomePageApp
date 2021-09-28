@@ -11,21 +11,32 @@ import BlogMenu from "./BlogMenuComponent"
 const BlogEntry = ({ state, row }) => {
     const postedDate: Date = new Date(row.createdDate);
     const postedDateString: string = postedDate.toLocaleString();
+    let columnOneName: string = "";
+    let columnTwoName: string = "blogEntryColumn1";
     let embedURL: string = null;
-    if(row.blogEmbedURL){
-        if(ReactPlayer.canPlay(row.blogEmbedURL)){
+    if (row.blogEmbedURL) {
+        if (ReactPlayer.canPlay(row.blogEmbedURL)) {
             embedURL = row.blogEmbedURL;
+            columnOneName = "blogEntryColumn1";
+            columnTwoName = "blogEntryColumn2";
         }
     }
 
     return (
-        <section key={row._id} className="blogEntry">
-            <section className="blogTitle"><article>{row.blogTitle}</article></section>
-            <section className="blogMenu">{state.userName == row.originalAuthor && <BlogMenu state={state} blogId={row._id} originalAuthor={row.originalAuthor}/>}</section>
-            <section className="blogAuthor"><article>Posted By: {row.originalAuthor}</article></section>
-            <section className="blogArticle"><article>{row.blogArticle}</article></section>
-            <section className="blogEmbeddedURL"><article>{embedURL != null && <ReactPlayer id="react-player" url={embedURL} controls={true} width={400} height={225}/>}</article></section>
-            <section className="blogDate"><article>Posted On: {postedDateString}</article></section>       
+        <section key={row._id} className="blogEntryRow">
+            <section className={columnOneName}>
+                <section className="blogEmbeddedURL"><article>{embedURL != null && <ReactPlayer id="react-player" url={embedURL} controls={true} width={400} height={225} />}</article></section>
+            </section>
+            <section className={columnTwoName}>
+                <section className="blogEntryDetails">
+                    <section className="blogTitle"><article>{row.blogTitle}</article></section>
+                    <section className="blogAuthor"><article>Posted By: {row.originalAuthor}</article></section>
+                    <section className="blogArticle"><article>{row.blogArticle}</article></section>
+                    <section className="blogDate"><article>Posted On: {postedDateString}</article></section>
+                    <section className="blogMenu">{state.userName == row.originalAuthor && <BlogMenu state={state} blogId={row._id} originalAuthor={row.originalAuthor} />}</section>
+                </section>
+            </section>
+
         </section>
     )
 }

@@ -38,7 +38,7 @@ class BaseLayout extends Component {
 
                     <section id="toolbar">
                         <div id="toolbar_row1"></div>
-                        <div id="toolbar_logo_title"><a onClick={() => { this.state.viewBlog();this.state.setTabIndex(0);}}>PJ's Homepage</a></div>
+                        <a id="tool_bar_logo_link" onClick={() => { this.state.viewBlog();this.state.setTabIndex(0);}}><div id="toolbar_logo_title"></div></a>
                         <div id="toolbar_login">
                             {this.state.loggedIn !== true && <a onClick={() => { this.state.resetLoginMessage; this.state.viewLoginPopup(true) }}><AccountCircleIcon/></a>}
                         </div>
@@ -46,7 +46,7 @@ class BaseLayout extends Component {
                     </section>
 
                     <section id="content">
-                        <TabComponent state={this.state}/>
+                        <div id="tab_container"><TabComponent state={this.state}/></div>
                         {this.state.currentView === Constants.BLOG_VIEW && <Blog state={this.state} />}
                         {this.state.currentView === Constants.ALBUMS_VIEW && <PhotoAlbums state={this.state} />}
                         {this.state.currentView === Constants.PHOTOS_VIEW && <Photos state={this.state} />}
