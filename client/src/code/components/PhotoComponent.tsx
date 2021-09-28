@@ -44,42 +44,41 @@ const Photos = ({ state }) => {
 
     for (let i = 0; i < state.photoAlbums.length; i++) {
         if (state.photoAlbums[i]._id === state.currentPhotoAlbumId) {
-            selectedAlbumIndex = i;           
+            selectedAlbumIndex = i;
             if (state.photoAlbums[i].photos != null) {
                 numberOfPhotos = state.photoAlbums[i].photos.length;
             }
             break;
         }
     }
-    
+
     let totalPages: number = numberOfPhotos / Constants.MAX_PHOTOS_PER_PAGE;
     totalPages = Math.ceil(totalPages);
 
     return (
-        <section className= "contentPhotoContainer">
-                <section id="photo_toolbar">
-                    <div id="photo_toolbar_homeButton"><button className="button" onClick={() => {state.viewPhotoAlbums();state.setPaginationPage(1);}}>Back</button></div>
-                    <div id="photo_toolbar_addButton"><button className="button" onClick={() => state.viewAddPhotoPopup(true)}>Add Photo</button></div>
-                </section>
-
+        <section className="contentPhotoContainer">
             <section id="photoThumbnailsContainer">
                 {state.photoAlbums[selectedAlbumIndex].photos != undefined && state.photoAlbums[selectedAlbumIndex].photos.map((photo, index) => (
-                    index >= state.currentPhotoStartIndex && index <= state.currentPhotoEndIndex && 
+                    index >= state.currentPhotoStartIndex && index <= state.currentPhotoEndIndex &&
                     <section className="photoThumbnails">
 
-                                <Image src={"/albumid/" +
-                                    `${state.currentPhotoAlbumId}` + "/photofilename/" +
-                                    `${photo.photoThumbnailFileName}`}
-                                    onClick={() => { state.setCurrentImage(photo.photoFileName,photo.uploadedByUser); state.viewImageViewerModal(true); }} />
- 
+                        <Image src={"/albumid/" +
+                            `${state.currentPhotoAlbumId}` + "/photofilename/" +
+                            `${photo.photoThumbnailFileName}`}
+                            onClick={() => { state.setCurrentImage(photo.photoFileName, photo.uploadedByUser); state.viewImageViewerModal(true); }} />
+
                     </section>))}
+            </section>
+            <section id="photo_toolbar">
+                <div id="photo_toolbar_homeButton"><div className="button" onClick={() => { state.viewPhotoAlbums(); state.setPaginationPage(1); }}>Back</div></div>
+                <div id="photo_toolbar_addButton">{state.loggedIn === true &&<div className="button" onClick={() => state.viewAddPhotoPopup(true)}>Add Photo</div>}</div>
             </section>
             <section className="paginationbar">
                 <PaginationControl state={state} totalPages={totalPages} />
             </section>
             {createNewPhotoDialog(state, classes)}
-            {state.viewImageViewer == true && <ImageViewer state={state}/>}
-            <InformationalMessageDialog state={state}/>
+            {state.viewImageViewer == true && <ImageViewer state={state} />}
+            <InformationalMessageDialog state={state} />
         </section>
 
 

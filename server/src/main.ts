@@ -29,7 +29,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: configInfo.config.environment === Constants.Environment.PRODUCTION,
+        secure: false,
         sameSite: true,
         maxAge: configInfo.config.timeout
     },
