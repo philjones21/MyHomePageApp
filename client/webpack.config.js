@@ -26,11 +26,31 @@ module.exports = {
                 test: /\.(png|jpg|jpeg|gif)$/,
                 loader: 'file-loader'
             },
+            //{
+            //    test: /\.svg$/i,
+            //   loader: 'url-loader',   
+            //},
             {
-                test: /\.svg$/i,
-                loader: 'url-loader',
-                
+                test: /\.svg/,
+                use: {
+                    loader: "svg-url-loader",
+                    options: {
+                        // make all svg images to work in IE
+                        iesafe: true,
+                    },
+                },
             },
+            /*{
+                test: /\.m?js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env'],
+                        plugins: ['@babel/plugin-proposal-object-rest-spread']
+                    }
+                }
+            },*/
         ]
 
     },
@@ -42,6 +62,7 @@ module.exports = {
     performance: { hints: false },
     watch: true,
     devtool: "source-map",
-    mode: "development"
+    mode: "development",
+    target: ['web', 'es5']
 
 };

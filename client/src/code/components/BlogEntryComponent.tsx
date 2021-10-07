@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ReactPlayer from 'react-player/lazy';
+import ReactPlayer from 'react-player/youtube';
 import BlogMenu from "./BlogMenuComponent"
 
 /**
@@ -32,8 +32,10 @@ const BlogEntry = ({ state, row }) => {
                     <section className="blogTitle"><article>{row.blogTitle}</article></section>
                     <section className="blogAuthor"><article>Posted By: {row.originalAuthor}</article></section>
                     <section className="blogArticle"><article>{row.blogArticle}</article></section>
-                    <section className="blogDate"><article>Posted On: {postedDateString}</article></section>
-                    <section className="blogMenu">{state.userName == row.originalAuthor && <BlogMenu state={state} blogId={row._id} originalAuthor={row.originalAuthor} />}</section>
+                    <section className="blog_bottom_row">
+                        <section className="blogDate"><article>Posted On: {postedDateString}</article></section>
+                        <section className="blogMenu">{state.userName == row.originalAuthor && <BlogMenu state={state} blogId={row._id} originalAuthor={row.originalAuthor} />}</section>
+                    </section>
                 </section>
             </section>
 

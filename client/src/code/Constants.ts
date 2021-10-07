@@ -3,6 +3,7 @@
     PHOTOS_VIEW: "photos_view",
     LOGIN_VIEW: "login_view",
     BLOG_VIEW: "blog_view",
+    ANIMATION_VIEW: "animation_view",
 
     MAX_PHOTO_FILE_SIZE: 5000000,
     VALID_FILE_TYPES: [".jpg", ".jpeg", ".gif", ".png", ".tiff"],
@@ -12,7 +13,7 @@
     MAX_ALBUMS_PER_PAGE: 8,
     MAX_BLOG_ENTRIES_PER_PAGE: 4,
 
-    APPLICATION_VERSION: "21.09.0",
+    APPLICATION_VERSION: "21.10.0",
 
     MIN_USER_NAME_CHARS: 2,
     MAX_USER_NAME_CHARS: 40,
