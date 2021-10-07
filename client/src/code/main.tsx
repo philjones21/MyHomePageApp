@@ -8,7 +8,7 @@ import BaseLayout from "./components/BaseLayout";
 import * as Blog from "./Blogs";
 
 //Render the UI with the top level BaseLayout component.
-const baseComponent = ReactDOM.render(<BaseLayout />, document.body);
+const baseComponent = ReactDOM.render(<BaseLayout />, document.getElementById("root"));
 
 //Now go get the list of BlogEntries to display when the UI initially loads.
 baseComponent.state.showHidePleaseWait(true);

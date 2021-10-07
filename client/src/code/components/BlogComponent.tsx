@@ -1,4 +1,4 @@
-﻿import React, { Component } from "react";
+﻿import React, { Component, useEffect } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -22,12 +22,36 @@ const Blog = ({ state }) => {
     let totalPages: number = numberOfBlogEntries / Constants.MAX_BLOG_ENTRIES_PER_PAGE;
     totalPages = Math.ceil(totalPages);
 
+    const animationListener = () => {
+        return new Promise<boolean>((inResolve, inReject) => {
+            const contentContainer = document.getElementById("contentContainer");
+            if (contentContainer != null) {
+                contentContainer.addEventListener("animationend", () => {
+                    document.querySelectorAll("contentContainer").forEach((contentContainer2) => {
+                        contentContainer2.classList.remove("loading");
+                        contentContainer.classList.add("loaded");
+                    });
+                    inResolve(true);
+                }, false);
+                contentContainer.classList.add("loading");
+            } else {
+                inReject(true);
+            }
+        });
+    }
+
+
+
+    useEffect(() => {
+        animationListener().then();
+    });
+
     return (
         <section>
-            <section className="contentBlogContainer" >
+            <section className="contentContainer" id="contentContainer">
 
                 {state.blogEntries.map((row, index) => (
-                    index >= state.currentBlogsStartIndex && index <= state.currentBlogsEndIndex && <BlogEntry state={state} row={row} />
+                    index >= state.currentBlogsStartIndex && index <= state.currentBlogsEndIndex && <BlogEntry key={row._id} state={state} row={row} />
                 ))}
 
                 <section id="blog_toolbar_addButton">{state.loggedIn == true && <div className="button" onClick={() => state.viewAddBlogPopup(true)}>New Post</div>}</section>
@@ -90,5 +114,4 @@ const Blog = ({ state }) => {
 }
 
 export default Blog;
-
 

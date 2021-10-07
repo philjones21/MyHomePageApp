@@ -27,9 +27,14 @@ module.exports = {
                 loader: 'file-loader'
             },
             {
-                test: /\.svg$/i,
-                loader: 'url-loader',
-                
+                test: /\.svg/,
+                use: {
+                    loader: "svg-url-loader",
+                    options: {
+                        // make all svg images to work in IE
+                        iesafe: true,
+                    },
+                },
             },
         ]
 
@@ -41,6 +46,7 @@ module.exports = {
 
     performance: { hints: false },
     watch: false,
-    mode: "production"
+    mode: "production",
+    target: ['web', 'es5']
 
 };

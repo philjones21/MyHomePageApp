@@ -431,7 +431,7 @@ app.post("/login",
             validationResult(inRequest).throw();
         } catch (e) {
             logger.info("SessionId: " + inRequest.session.id + " main.ts post /login", e);
-            inResponse.status(400).send("Invalid email data entered");
+            inResponse.status(400).send("Invalid email or password");
             return;
         }
 

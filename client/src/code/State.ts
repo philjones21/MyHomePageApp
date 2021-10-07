@@ -48,16 +48,16 @@ export function createState(inParentComponent) {
         photoFileName: null,
         photoDescription: null,
         photoParentAlbumId: null,
-        viewAddPhoto: null,
-        viewImageViewer: null,
+        viewAddPhoto: false,
+        viewImageViewer: false,
         uploadedFile: null,
 
         //misc state data
         pleaseWaitVisible: false,
-        currentView: Constants.BLOG_VIEW, //initialize to Blogs view when page first renders.
+        currentView: Constants.ANIMATION_VIEW, //initialize to Blogs view when page first renders.
 
-        viewLogin: null,
-        viewRegister: null,
+        viewLogin: false,
+        viewRegister: false,
 
         registerPassword: null,
         registerUserName: null,
@@ -70,8 +70,10 @@ export function createState(inParentComponent) {
         userName: null,
 
         alertMessageText: null,
-        viewInformationalAlertMessage: null,
+        viewInformationalAlertMessage: false,
         tabIndex: 0,
+
+        menuIsOpen: false,
 
         /**
         * This function is used whenever a server call is made and the user should be 
@@ -79,7 +81,8 @@ export function createState(inParentComponent) {
         * @param inVisible 
         */
         showHidePleaseWait: function (inVisible: boolean): void {
-            this.setState({ pleaseWaitVisible: inVisible });
+            //this.setState({ pleaseWaitVisible: inVisible });
+            this.setState({ pleaseWaitVisible: false });
         }.bind(inParentComponent),
 
         /**
@@ -504,7 +507,7 @@ export function createState(inParentComponent) {
             this.setState({ currentView: inView });
         }.bind(inParentComponent),
 
-
+        
         /**
         * sets the currentView and other fields needed in order to view Photos UI
         * @param inId albumId
@@ -925,5 +928,23 @@ export function createState(inParentComponent) {
             }
             this.state.showHidePleaseWait(false);
         }.bind(inParentComponent),
+
+        /**
+        * This function is used to set the menu's active class name which control opening and closin
+        * the menu.
+        */
+        setMenuIsOpen: function (): void {
+            const isOpen: boolean = !this.state.menuIsOpen;
+            this.setState({menuIsOpen: isOpen});
+        }.bind(inParentComponent),
+
+        /**
+        * This function is used to set the menu's active class name which control opening and closing
+        * the menu.
+        */
+        setMenuIsOpenFalse: function (): void {
+            this.setState({menuIsOpen: false});
+        }.bind(inParentComponent),
+    
     }
 }

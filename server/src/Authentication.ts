@@ -155,20 +155,20 @@ export class Authentication {
         }
 
         if (!this.schema.validate(inUserLoginInfo.password)) {
-            errorMessage.message = "User password invalid";
+            errorMessage.message = "Invalid email or password";
             return null;
         }
 
         //search using lower case
         const user: IUserInfo[] = await this.searchUserByEmail(inUserLoginInfo.email.toLowerCase());
         if (user == null) {
-            errorMessage.message = "User not found";
+            errorMessage.message = "Invalid email or password";
             return null;
         } else if (user.length == 0) {
-            errorMessage.message = "User not found";
+            errorMessage.message = "Invalid email or password";
             return null;
         } else if (user.length > 1) {
-            errorMessage.message = "Error: Duplicate Users";
+            errorMessage.message = "Invalid email or password";
             return null;
         } else if (user[0].loginAttempts > Constants.MAX_LOGIN_ATTEMPS) {
             errorMessage.message = "Account locked";
@@ -189,7 +189,7 @@ export class Authentication {
         } else {
             //increase count of failed login attempts.
             const numberReplaced: number = await this.updateUserLoginAttempts(user[0].name, user[0].loginAttempts + 1);
-            errorMessage.message = "Incorrect Password";
+            errorMessage.message = "Invalid email or password";
             return null;
         }
 

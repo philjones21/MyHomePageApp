@@ -1,4 +1,4 @@
-﻿import React, { Component } from "react";
+﻿import React, { Component, useEffect } from "react";
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -55,32 +55,55 @@ const Photos = ({ state }) => {
     let totalPages: number = numberOfPhotos / Constants.MAX_PHOTOS_PER_PAGE;
     totalPages = Math.ceil(totalPages);
 
+    const animationListener = () => {
+        return new Promise<boolean>((inResolve, inReject) => {
+            const contentContainer = document.getElementById("contentContainer");
+            if (contentContainer != null) {
+                contentContainer.addEventListener("animationend", () => {
+                    document.querySelectorAll("contentContainer").forEach((contentContainer2) => {
+                        contentContainer2.classList.remove("loading");
+                        contentContainer.classList.add("loaded");
+                    });
+                    inResolve(true);
+                }, false);
+                contentContainer.classList.add("loading");
+            } else {
+                inReject(true);
+            }
+        });
+    }
+
+    useEffect(() => {
+        animationListener().then();
+    });
+
     return (
-        <section className="contentPhotoContainer">
-            <section id="photoThumbnailsContainer">
-                {state.photoAlbums[selectedAlbumIndex].photos != undefined && state.photoAlbums[selectedAlbumIndex].photos.map((photo, index) => (
-                    index >= state.currentPhotoStartIndex && index <= state.currentPhotoEndIndex &&
-                    <section className="photoThumbnails">
+        <section className="contentContainer" id="contentContainer">
+            <section className="contentPhotoContainer">
+                <section id="photoThumbnailsContainer">
+                    {state.photoAlbums[selectedAlbumIndex].photos != undefined && state.photoAlbums[selectedAlbumIndex].photos.map((photo, index) => (
+                        index >= state.currentPhotoStartIndex && index <= state.currentPhotoEndIndex &&
+                        <section className="photoThumbnails" key={photo.photoThumbnailFileName}>
 
-                        <Image src={"/albumid/" +
-                            `${state.currentPhotoAlbumId}` + "/photofilename/" +
-                            `${photo.photoThumbnailFileName}`}
-                            onClick={() => { state.setCurrentImage(photo.photoFileName, photo.uploadedByUser); state.viewImageViewerModal(true); }} />
+                            <Image src={"/albumid/" +
+                                `${state.currentPhotoAlbumId}` + "/photofilename/" +
+                                `${photo.photoThumbnailFileName}`}
+                                onClick={() => { state.setCurrentImage(photo.photoFileName, photo.uploadedByUser); state.viewImageViewerModal(true); }} />
 
-                    </section>))}
+                        </section>))}
+                </section>
+                <section id="photo_toolbar">
+                    <div id="photo_toolbar_homeButton"><div className="button" onClick={() => { state.viewPhotoAlbums(); state.setPaginationPage(1); }}>Back</div></div>
+                    <div id="photo_toolbar_addButton">{state.loggedIn === true && <div className="button" onClick={() => state.viewAddPhotoPopup(true)}>Add Photo</div>}</div>
+                </section>
+                <section className="paginationbar">
+                    <PaginationControl state={state} totalPages={totalPages} />
+                </section>
+                {createNewPhotoDialog(state, classes)}
+                {state.viewImageViewer == true && <ImageViewer state={state} />}
+                <InformationalMessageDialog state={state} />
             </section>
-            <section id="photo_toolbar">
-                <div id="photo_toolbar_homeButton"><div className="button" onClick={() => { state.viewPhotoAlbums(); state.setPaginationPage(1); }}>Back</div></div>
-                <div id="photo_toolbar_addButton">{state.loggedIn === true &&<div className="button" onClick={() => state.viewAddPhotoPopup(true)}>Add Photo</div>}</div>
-            </section>
-            <section className="paginationbar">
-                <PaginationControl state={state} totalPages={totalPages} />
-            </section>
-            {createNewPhotoDialog(state, classes)}
-            {state.viewImageViewer == true && <ImageViewer state={state} />}
-            <InformationalMessageDialog state={state} />
         </section>
-
 
     );
 }
