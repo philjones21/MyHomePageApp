@@ -69,9 +69,7 @@ class BaseLayout extends Component {
                                     <img id="toolbar_logo_svg" src={logo} alt="logo_intro" />
                                 </div>
                             </a>
-                            <div id="toolbar_login">
-                                {this.state.loggedIn !== true && <a onClick={() => { this.state.resetLoginMessage; this.state.viewLoginPopup(true) }}><AccountCircleIcon /></a>}
-                            </div>
+
                             <div id="toolbar_menu"><ToolBarMenu state={this.state} /></div>
                         </section>
 

@@ -58,7 +58,9 @@ const PhotoAlbums = ({ state }) => {
                 ))}
                 <div id="album_toolbar_addButton">{state.loggedIn == true && <div className="button" onClick={() => state.viewAddAlbumPopup(true)}>Add Album</div>}</div>
                 <section className="paginationbar">
-                    <PaginationControl state={state} totalPages={totalPages} />
+                    <section className="pagination_control">
+                        <PaginationControl state={state} totalPages={totalPages} />
+                    </section>
                 </section>
 
                 <Dialog open={state.viewAddAlbum} onClose={() => state.viewAddAlbumPopup(false)} aria-labelledby="form-dialog-title"

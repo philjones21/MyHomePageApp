@@ -56,7 +56,9 @@ const Blog = ({ state }) => {
 
                 <section id="blog_toolbar_addButton">{state.loggedIn == true && <div className="button" onClick={() => state.viewAddBlogPopup(true)}>New Post</div>}</section>
                 <section className="paginationbar">
-                    <PaginationControl state={state} totalPages={totalPages} />
+                    <section className="pagination_control">
+                        <PaginationControl state={state} totalPages={totalPages} />
+                    </section>
                 </section>
 
                 <Dialog open={state.viewAddBlog} onClose={() => state.viewAddBlogPopup(false)} aria-labelledby="form-dialog-title"
