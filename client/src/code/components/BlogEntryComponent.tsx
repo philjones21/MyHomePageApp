@@ -31,7 +31,7 @@ const BlogEntry = ({ state, row }) => {
                 <section className="blogEntryDetails">
                     <section className="blogTitle"><article>{row.blogTitle}</article></section>
                     <section className="blogAuthor"><article>Posted By: {row.originalAuthor}</article></section>
-                    <section className="blogArticle"><article>{row.blogArticle}</article></section>
+                    <section className={`blogArticle ${embedURL == null ? 'large' : 'small'}`}><article>{row.blogArticle}</article></section>
                     <section className="blog_bottom_row">
                         <section className="blogDate"><article>Posted On: {postedDateString}</article></section>
                         <section className="blogMenu">{state.userName == row.originalAuthor && <BlogMenu state={state} blogId={row._id} originalAuthor={row.originalAuthor} />}</section>

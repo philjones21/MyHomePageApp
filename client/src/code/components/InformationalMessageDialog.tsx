@@ -29,7 +29,7 @@ export default function InformationalMessageDialog({state}) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Information"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Info"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {state.alertMessageText}

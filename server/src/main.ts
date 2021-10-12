@@ -19,6 +19,18 @@ const Datastore = require('express-nedb-session')(session);
 
 const app: Express = express();
 
+//Azure proxy sends request to this express server using http basic so 
+//trust proxy.
+app.set('trust proxy', 1);
+
+//add some middleware so we can set cookie secure to true in Azure.
+app.use(function(req, res, next) {
+    if(req.headers['x-arr-ssl'] && !req.headers['x-forwarded-proto']) {
+      req.headers['x-forwarded-proto'] = 'https';
+    }
+    return next();
+  });
+
 app.use(express.json());
 
 //Add secret to config.json if downloading and running project from public source control
@@ -29,7 +41,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: false,
+        secure: configInfo.config.environment === Constants.Environment.PRODUCTION, 
         sameSite: true,
         maxAge: configInfo.config.timeout
     },

@@ -18,7 +18,7 @@
     grid-template-columns: 1fr;
     grid-template-rows: 100px 1fr 70px;
     width: 100%;
-    background-color: rgb(11, 14, 41);
+    /*background-color: rgb(11, 14, 41);*/
     height:100%;
     min-height: 600px;
     min-width: 400px;
@@ -93,20 +93,32 @@
 #toolbar_menu_svg{
     margin-top: 10px;
     margin-right: 10px;
-    height: 20px;
-    width:20px;
+    height: 30px;
+    width:30px;
 }
 
 .paginationbar{
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-right: 8%;
     margin-left:8%;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 14pt;
     font-weight: 700;
     margin-top: 20px; 
-    background-color: rgb(44, 50, 105);
     border-radius: 8px;
+}
+
+.pagination_control{
+    display: flex;
+    background-color: rgb(44, 50, 105);
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 #tab_container{
@@ -214,6 +226,7 @@
     font-weight: 700;
     word-break: break-word;
     color:rgb(161, 164, 209);
+    min-width: 50px;
 }
 
 .albumRowDescription{
@@ -400,7 +413,7 @@ a:hover{
     font-weight: 500;
 }
 
-.blogArticle{
+.blogArticle.small{
     margin-top: 4px;
     margin-bottom: 4px;
     white-space:pre-line;
@@ -417,7 +430,25 @@ a:hover{
     font-size: 14pt;
     font-weight: 700;
     border-radius: 8px;
-    
+}
+
+.blogArticle.large{
+    margin-top: 4px;
+    margin-bottom: 4px;
+    white-space:pre-line;
+    word-break: break-word;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: left;
+    min-height:150px;
+    color:rgb(97, 104, 168);
+    background-color: rgb(44, 50, 105);
+    font-family: Calibri, sans-serif,'Trebuchet MS','Gill Sans', 'Gill Sans MT'; 
+    font-size: 14pt;
+    font-weight: 700;
+    border-radius: 8px;
+    max-width:600px;
 
 }
 
@@ -500,6 +531,7 @@ a.menu_item:hover{
     transform: translateY(0);
     pointer-events: auto;
 }
+
 
 .drop_down_menu_items{
     display: grid;

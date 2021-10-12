@@ -97,7 +97,9 @@ const Photos = ({ state }) => {
                     <div id="photo_toolbar_addButton">{state.loggedIn === true && <div className="button" onClick={() => state.viewAddPhotoPopup(true)}>Add Photo</div>}</div>
                 </section>
                 <section className="paginationbar">
-                    <PaginationControl state={state} totalPages={totalPages} />
+                    <section className="pagination_control">
+                        <PaginationControl state={state} totalPages={totalPages} />
+                    </section>
                 </section>
                 {createNewPhotoDialog(state, classes)}
                 {state.viewImageViewer == true && <ImageViewer state={state} />}
