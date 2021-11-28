@@ -93,8 +93,8 @@ const Photos = ({ state }) => {
                         </section>))}
                 </section>
                 <section id="photo_toolbar">
-                    <div id="photo_toolbar_homeButton"><div className="button" onClick={() => { state.viewPhotoAlbums(); state.setPaginationPage(1); }}>Back</div></div>
-                    <div id="photo_toolbar_addButton">{state.loggedIn === true && <div className="button" onClick={() => state.viewAddPhotoPopup(true)}>Add Photo</div>}</div>
+                    <div id="photo_toolbar_homeButton"><a className="buttonLink" href="#main"><div className="button2" onClick={() => { state.viewPhotoAlbums(); state.setPaginationPage(1); }}>Back</div></a></div>
+                    <div id="photo_toolbar_addButton">{state.loggedIn === true && <div className="button2" onClick={() => state.viewAddPhotoPopup(true)}>Add Photo</div>}</div>
                 </section>
                 <section className="paginationbar">
                     <section className="pagination_control">

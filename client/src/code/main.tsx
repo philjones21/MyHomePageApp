@@ -22,6 +22,6 @@ async function listBlogs() {
     }
 }
 listBlogs().then(() => {
-    baseComponent.state.showHidePleaseWait(false);
+    baseComponent.state.listPhotoAlbums();
 });
 

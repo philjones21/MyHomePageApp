@@ -25,7 +25,7 @@ const BlogEntry = ({ state, row }) => {
     return (
         <section key={row._id} className="blogEntryRow">
             <section className={columnOneName}>
-                <section className="blogEmbeddedURL"><article>{embedURL != null && <ReactPlayer id="react-player" url={embedURL} controls={true} width={400} height={225} />}</article></section>
+                {embedURL != null && <section className="blogEmbeddedURL"><article><ReactPlayer className="react-player" url={embedURL} controls={true} width="100%" height="100%" /></article></section>}
             </section>
             <section className={columnTwoName}>
                 <section className="blogEntryDetails">

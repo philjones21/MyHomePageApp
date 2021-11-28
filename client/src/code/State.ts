@@ -54,7 +54,7 @@ export function createState(inParentComponent) {
 
         //misc state data
         pleaseWaitVisible: false,
-        currentView: Constants.ANIMATION_VIEW, //initialize to Blogs view when page first renders.
+        currentView: Constants.BLOG_VIEW, //initialize to Blogs view when page first renders.
 
         viewLogin: false,
         viewRegister: false,
@@ -70,6 +70,7 @@ export function createState(inParentComponent) {
         userName: null,
 
         alertMessageText: null,
+        alertMessageTitle: null,
         viewInformationalAlertMessage: false,
         tabIndex: 0,
 
@@ -121,7 +122,18 @@ export function createState(inParentComponent) {
         * @param inText     
         */
         informationalAlertMessage: function (inText: string): void {
-            this.setState({ alertMessageText: inText });
+            this.setState({ alertMessageTitle: null,
+                            alertMessageText: inText });
+            this.state.viewInformationalAlertMessagePopup(true);
+        }.bind(inParentComponent),
+
+        /**
+        * Used to display info/error messages on some of the dialog popups
+        * @param inText     
+        */
+         informationalAlertTitleAndMessage: function (inTitle: string, inText: string): void {
+            this.setState({ alertMessageTitle: inTitle,
+                            alertMessageText: inText });
             this.state.viewInformationalAlertMessagePopup(true);
         }.bind(inParentComponent),
 
@@ -520,7 +532,6 @@ export function createState(inParentComponent) {
                 currentView: Constants.PHOTOS_VIEW,
             });
             this.state.resetPhotosPaginationIndex();
-            window.scrollTo(0, 0);
         }.bind(inParentComponent),
 
         /*
@@ -534,7 +545,6 @@ export function createState(inParentComponent) {
                 currentView: Constants.ALBUMS_VIEW
             });
             this.state.resetPhotoAlbumsPaginationIndex();
-            window.scrollTo(0, 0);
 
         }.bind(inParentComponent),
 
@@ -547,7 +557,6 @@ export function createState(inParentComponent) {
                 currentView: Constants.BLOG_VIEW
             });
             this.state.resetBlogPaginationIndex();
-            window.scrollTo(0, 0);
 
         }.bind(inParentComponent),
 

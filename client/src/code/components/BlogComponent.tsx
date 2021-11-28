@@ -54,7 +54,7 @@ const Blog = ({ state }) => {
                     index >= state.currentBlogsStartIndex && index <= state.currentBlogsEndIndex && <BlogEntry key={row._id} state={state} row={row} />
                 ))}
 
-                <section id="blog_toolbar_addButton">{state.loggedIn == true && <div className="button" onClick={() => state.viewAddBlogPopup(true)}>New Post</div>}</section>
+                <section id="blog_toolbar_addButton">{state.loggedIn == true && <div className="button2" onClick={() => state.viewAddBlogPopup(true)}>New Post</div>}</section>
                 <section className="paginationbar">
                     <section className="pagination_control">
                         <PaginationControl state={state} totalPages={totalPages} />

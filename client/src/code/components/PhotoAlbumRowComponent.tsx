@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import Image from 'material-ui-image';
 import PhotoAlbumRowMenu from "./PhotoAlbumRowMenuComponent"
 
@@ -6,13 +6,15 @@ import PhotoAlbumRowMenu from "./PhotoAlbumRowMenuComponent"
 * This component is used to display the individual PhotoAlbumRows and contains the link
 * to display the Photos UI for the given Album.
 */
+
+
 const PhotoAlbumRow = ({ state, row }) => {
     return (
         <section key={row._id} className="albumRow">
             <section className="albumRowPhotoThumbnail">
                 {row.photos != undefined && row.photos.length > 0 &&
 
-                    <a>
+                    <a href="#main">
                         <Image src={"/albumid/" +
                             `${row._id}` + "/photofilename/" +
                             `${row.photos[0].photoThumbnailFileName}`}
@@ -22,7 +24,7 @@ const PhotoAlbumRow = ({ state, row }) => {
 
             </section>
             <section className="albumRowTitle" onClick={() => { state.viewPhotos(row._id, row.albumName); }} >
-                <a onClick={() => {state.viewPhotos(row._id, row.albumName);state.setPaginationPage(1);}}>{row.albumName}</a>
+                <a href="#main" onClick={() => {state.viewPhotos(row._id, row.albumName);state.setPaginationPage(1);}}>{row.albumName}</a>
             </section>
             <section className="albumRowDescription">
                 <article>{row.albumDescription}</article>
