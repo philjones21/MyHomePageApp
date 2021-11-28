@@ -29,6 +29,8 @@
     MAX_BLOG_TITLE_CHARS: 75,
 
     MAX_BLOG_ARTICLE_CHARS: 2000,
+
+    CONTACT: "Contact",
 };
 
 

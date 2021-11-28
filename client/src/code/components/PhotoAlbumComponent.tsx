@@ -56,7 +56,7 @@ const PhotoAlbums = ({ state }) => {
                 {state.photoAlbums.map((row, index) => (
                     index >= state.currentAlbumsStartIndex && index <= state.currentAlbumsEndIndex && <PhotoAlbumRow key={row._id} state={state} row={row} />
                 ))}
-                <div id="album_toolbar_addButton">{state.loggedIn == true && <div className="button" onClick={() => state.viewAddAlbumPopup(true)}>Add Album</div>}</div>
+                <div id="album_toolbar_addButton">{state.loggedIn == true && <div className="button2" onClick={() => state.viewAddAlbumPopup(true)}>Add Album</div>}</div>
                 <section className="paginationbar">
                     <section className="pagination_control">
                         <PaginationControl state={state} totalPages={totalPages} />
